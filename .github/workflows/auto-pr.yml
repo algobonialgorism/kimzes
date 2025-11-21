@@ -30,4 +30,3 @@ jobs:
             --head main \
             --title "[풀이 제출] $TITLE" \
             --body "CodeRabbit 님, 제 풀이를 채점해주세요! 🥕" \
-            || echo "PR already exists, updated commits."
