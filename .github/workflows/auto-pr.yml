@@ -4,7 +4,7 @@ on:
   push:
     branches: [ "main" ]
     paths:
-      - "**/**/*.java"
+      - "**/*.java"
 
 jobs:
   create-pr-to-archive:
@@ -17,17 +17,11 @@ jobs:
       - name: Checkout code
         uses: actions/checkout@v3
 
-      - name: Create Pull Request to Archive and Request CodeRabbit Review
+      - name: Create or Reuse PR and Request CodeRabbit Review
         env:
           GH_TOKEN: ${{ secrets.GITHUB_TOKEN }}
         run: |
           TITLE=$(git log -1 --pretty=%s)
-
-          gh pr create \
-            --base archive \
-            --head main \
-            --title "[풀이 제출] $TITLE" \
-            --body "CodeRabbit 님, 제 풀이를 채점해주세요! 🥕" || true
 
           PR_NUMBER=$(gh pr list \
             --base archive \
@@ -35,6 +29,21 @@ jobs:
             --state open \
             --json number \
             --jq '.[0].number')
+
+          if [ -z "$PR_NUMBER" ]; then
+            gh pr create \
+              --base archive \
+              --head main \
+              --title "[풀이 제출] $TITLE" \
+              --body "CodeRabbit 님, 제 풀이를 채점해주세요! 🥕"
+
+            PR_NUMBER=$(gh pr list \
+              --base archive \
+              --head main \
+              --state open \
+              --json number \
+              --jq '.[0].number')
+          fi
 
           if [ -n "$PR_NUMBER" ]; then
             gh pr comment "$PR_NUMBER" --body "@coderabbitai review"
