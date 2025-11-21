@@ -1,0 +1,35 @@
+name: Auto PR Creator
+on:
+  push:
+    branches: [ "main" ] # 백준허브가 푸시하는 곳
+    paths:
+      - "**/*.java"  # 코드 파일이 들어올 때만 발동 (언어에 맞게 수정)
+      - "**/*.py"
+      - "**/*.cpp"
+
+jobs:
+  create-pr-to-archive:
+    runs-on: ubuntu-latest
+    permissions:
+      contents: write
+      pull-requests: write # PR을 만들 권한 필요
+
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v3
+
+      - name: Create Pull Request to Archive
+        env:
+          GH_TOKEN: ${{ secrets.GITHUB_TOKEN }} # 깃허브가 기본 제공하는 토큰
+        run: |
+          # 제목은 커밋 메시지(보통 문제 이름)를 그대로 씁니다
+          TITLE=$(git log -1 --pretty=%s)
+          
+          # main(현재)에서 archive(목표)로 가는 PR 생성
+          # 이미 열려있는 PR이 있다면 에러가 나는데, '|| true'로 무시해서 중복 생성을 방지합니다.
+          gh pr create \
+            --base archive \
+            --head main \
+            --title "[풀이 제출] $TITLE" \
+            --body "CodeRabbit 님, 제 풀이를 채점해주세요! 🥕" \
+            || echo "PR already exists, updated commits."
