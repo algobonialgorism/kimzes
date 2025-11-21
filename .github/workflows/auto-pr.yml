@@ -3,9 +3,7 @@ on:
   push:
     branches: [ "main" ] # 백준허브가 푸시하는 곳
     paths:
-      - "**/*.java"  # 코드 파일이 들어올 때만 발동 (언어에 맞게 수정)
-      - "**/*.py"
-      - "**/*.cpp"
+      - "**/**/*.java"  # 코드 파일이 들어올 때만 발동 (언어에 맞게 수정)
 
 jobs:
   create-pr-to-archive:
