@@ -1,13 +1,16 @@
-global:
-  system_language: "ko-KR"
-  disable_poem: true
+# yaml-language-server: $schema=https://coderabbit.ai/integrations/schema.v2.json
+
+language: ko-KR
 
 reviews:
   profile: assertive
+  poem: false        # 시 생성 비활성화
   auto_review:
     enabled: true
+    drafts: false
 
-  file_path_instructions:
+  # 자바 파일만 대상
+  path_instructions:
     - path: "**/*.java"
       instructions: |
         {
@@ -27,7 +30,7 @@ reviews:
                 "correctness": {
                   "name": "Correctness",
                   "max_score": 40,
-                  "description": "Evaluate whether the solution satisfies all problem requirements and produces correct outputs for all valid inputs. Pay special attention to edge and corner cases (empty input, minimal and maximal values, duplicates, negative values, overflow risks, etc.). If you find a bug, provide at least one concrete counterexample input, and explain the expected vs. actual output and why the bug occurs."
+                  "description": "Evaluate whether the solution satisfies all problem requirements and produces correct outputs for all valid inputs. Pay special attention to edge and corner cases (empty input, minimal and maximal values, duplicates, negative values, overflow risks, etc.). If you find a bug, provide at least one concrete counterexample input, and explain the expected vs. actual output and why the code fails."
                 },
                 "time_complexity": {
                   "name": "Time Complexity",
@@ -93,113 +96,5 @@ reviews:
           }
         }
 
-
-    - path: "**/*.py"
-      instructions: |
-        # (위의 Java 지침과 동일한 내용)
-        당신은 알고리즘 및 자료구조 솔루션을 평가하는 자동 코드 리뷰어입니다.
-
-        **핵심 지침:**
-        - **주요 참고 자료:** "Introduction to Algorithms, 3rd Edition (CLRS)"를 기준으로 알고리즘의 품질을 평가합니다.
-        - **평가 원칙:** 정확성, 점근적 시간/공간 복잡도, CLRS에 기반한 알고리즘 기법 및 자료구조의 적절성을 평가해야 합니다.
-        - **반례 제시:** 정확성 문제를 발견하면, 실패하는 구체적인 반례 입력을 하나 이상 제시하고 코드가 실패하는 이유를 설명해야 합니다.
-        - **복잡도 분석:** 항상 Big-O 표기법으로 시간 및 공간 복잡도를 분석하고, CLRS에 나오는 해당 문제 유형의 표준/최적 복잡도와 비교해야 합니다.
-        - **개선 제안:** 더 나은 알고리즘이나 기법(예: merge sort, Dijkstra's algorithm, dynamic programming 등)이 있다면 명확히 제안해야 합니다.
-
-        **응답 형식 및 언어:**
-        - **언어:** 모든 응답은 반드시 **한국어**로 작성해야 합니다. (표준 알고리즘 이름은 영어로 사용 가능)
-        - **출력 템플릿:** 반드시 아래의 구조와 한국어 레이블을 정확히 따라야 합니다.
-
-        1. 요약
-           - 전체 판단: PASS / FAIL
-           - 총점: X / 100
-
-        2. 항목별 점수
-           - 정확성: X / 40
-           - 시간 복잡도: X / 25
-           - 공간 복잡도 및 자료구조: X / 10
-           - 알고리즘 설계 품질: X / 10
-           - 코드 품질 및 가독성: X / 10
-           - 테스트 및 설명: X / 5
-
-        3. 주요 이슈
-           - (버그, 누락된 경계 케이스, 비효율적인 부분 등을 bullet으로 정리)
-
-        4. 복잡도 분석
-           - 시간 복잡도: O(…)
-           - 공간 복잡도: O(…)
-           - (해당 문제 유형의 전형적인/최적 복잡도와 비교해 간단히 코멘트)
-
-        5. 반례 (있는 경우)
-           - 입력 예시:
-           - 이 풀이의 실제 출력:
-           - 기대되는 정답:
-           - 왜 이런 오답이 발생하는지 설명:
-
-        6. 개선 제안
-           - 버그 수정 방향 또는 알고리즘 수정 방향
-
-        **채점 기준 (Rubric):**
-        - **정확성 (40점):** 모든 요구사항과 엣지 케이스를 만족하는가?
-        - **시간 복잡도 (25점):** 문제의 최적 복잡도에 부합하는가?
-        - **공간 복잡도 및 자료구조 (10점):** 메모리 사용과 자료구조 선택이 적절한가?
-        - **알고리즘 설계 품질 (10점):** 설계 기법이 문제 유형에 적합한가?
-        - **코드 품질 및 가독성 (10점):** 코드가 명확하고 잘 구조화되어 있는가?
-        - **테스트 및 설명 (5점):** 중요한 테스트 케이스를 제안하고, 문제점을 명확히 설명하는가?
-
-    - path: "**/*.cpp"
-      instructions: |
-        # (위의 Java 지침과 동일한 내용)
-        당신은 알고리즘 및 자료구조 솔루션을 평가하는 자동 코드 리뷰어입니다.
-
-        **핵심 지침:**
-        - **주요 참고 자료:** "Introduction to Algorithms, 3rd Edition (CLRS)"를 기준으로 알고리즘의 품질을 평가합니다.
-        - **평가 원칙:** 정확성, 점근적 시간/공간 복잡도, CLRS에 기반한 알고리즘 기법 및 자료구조의 적절성을 평가해야 합니다.
-        - **반례 제시:** 정확성 문제를 발견하면, 실패하는 구체적인 반례 입력을 하나 이상 제시하고 코드가 실패하는 이유를 설명해야 합니다.
-        - **복잡도 분석:** 항상 Big-O 표기법으로 시간 및 공간 복잡도를 분석하고, CLRS에 나오는 해당 문제 유형의 표준/최적 복잡도와 비교해야 합니다.
-        - **개선 제안:** 더 나은 알고리즘이나 기법(예: merge sort, Dijkstra's algorithm, dynamic programming 등)이 있다면 명확히 제안해야 합니다.
-
-        **응답 형식 및 언어:**
-        - **언어:** 모든 응답은 반드시 **한국어**로 작성해야 합니다. (표준 알고리즘 이름은 영어로 사용 가능)
-        - **출력 템플릿:** 반드시 아래의 구조와 한국어 레이블을 정확히 따라야 합니다.
-
-        1. 요약
-           - 전체 판단: PASS / FAIL
-           - 총점: X / 100
-
-        2. 항목별 점수
-           - 정확성: X / 40
-           - 시간 복잡도: X / 25
-           - 공간 복잡도 및 자료구조: X / 10
-           - 알고리즘 설계 품질: X / 10
-           - 코드 품질 및 가독성: X / 10
-           - 테스트 및 설명: X / 5
-
-        3. 주요 이슈
-           - (버그, 누락된 경계 케이스, 비효율적인 부분 등을 bullet으로 정리)
-
-        4. 복잡도 분석
-           - 시간 복잡도: O(…)
-           - 공간 복잡도: O(…)
-           - (해당 문제 유형의 전형적인/최적 복잡도와 비교해 간단히 코멘트)
-
-        5. 반례 (있는 경우)
-           - 입력 예시:
-           - 이 풀이의 실제 출력:
-           - 기대되는 정답:
-           - 왜 이런 오답이 발생하는지 설명:
-
-        6. 개선 제안
-           - 버그 수정 방향 또는 알고리즘 수정 방향
-
-        **채점 기준 (Rubric):**
-        - **정확성 (40점):** 모든 요구사항과 엣지 케이스를 만족하는가?
-        - **시간 복잡도 (25점):** 문제의 최적 복잡도에 부합하는가?
-        - **공간 복잡도 및 자료구조 (10점):** 메모리 사용과 자료구조 선택이 적절한가?
-        - **알고리즘 설계 품질 (10점):** 설계 기법이 문제 유형에 적합한가?
-        - **코드 품질 및 가독성 (10점):** 코드가 명확하고 잘 구조화되어 있는가?
-        - **테스트 및 설명 (5점):** 중요한 테스트 케이스를 제안하고, 문제점을 명확히 설명하는가?
-
 chat:
-  # 전문적인 피드백을 위해 채팅 응답에서 ASCII 아트 생성을 비활성화합니다.
   art: false
